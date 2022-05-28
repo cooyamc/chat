@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang=ja>
+<head>
+    <meta charset=utf-8>
+    <title>Chat frontend</title>
+    <script>
+        function send_message(){
+            let xhr = new XMLHttpRequest();
+            let payload = {};
+
+            xhr.open("post", "./messages");
+
+            let name = document.querySelector("#name");
+            let message = document.querySelector("#message");
+
+            payload.name = name.value;
+            payload.message = message.value;
+
+            xhr.send(JSON.stringify(payload));
+        }
+
+        function get_message(){
+            let xhr = new XMLHttpRequest();
+
+            xhr.open("get", "./messages");
+            xhr.responseType = "json";
+            xhr.send();
+
+            xhr.onload = function() {
+                if (xhr.status != 200){
+                    console.log("Oops");
+                    return;
+                }
+
+                let r = xhr.response;
+                let lines = "";
+                r.forEach(e => {
+                    lines += `${e.name}: ${e.message}\n`;
+                });
+                
+                document.querySelector("#chat").value = lines;
+            }
+        }
+
+        setInterval(get_message, 1000);
+    </script>
+</head>
+<body>
+    <label for="name">名前</label>
+    <input type="text" id="name">
+    <label for="message">メッセージ</label>
+    <input type="text" id="message">
+    <br>
+    <input type="button" id="send" onclick="send_message()">
+    <br>
+    <textarea id="chat"></textarea>
+</body>
+</html>
