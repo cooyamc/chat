@@ -39,7 +39,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func HelloHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hello World!"))
+	w.Write([]byte("<h1>Hello World!<h1>"))
 }
 
 func MessagesGetHandler(w http.ResponseWriter, r *http.Request) {

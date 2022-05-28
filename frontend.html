@@ -5,13 +5,21 @@
     <title>Chat frontend</title>
     <script>
         function send_message(){
+            let name = document.querySelector("#name");
+            let message = document.querySelector("#message");
+            let please_input = document.querySelector("#please_input");
+
+            if (name.value === "" || message.value === "") {
+                please_input.style.display = "block";
+                return;
+            } else {
+                please_input.style.display = "none";
+            }
+
             let xhr = new XMLHttpRequest();
             let payload = {};
 
             xhr.open("post", "./messages");
-
-            let name = document.querySelector("#name");
-            let message = document.querySelector("#message");
 
             payload.name = name.value;
             payload.message = message.value;
@@ -44,15 +52,28 @@
 
         setInterval(get_message, 1000);
     </script>
+    <style>
+        body {
+            background-color: #eeeeee;
+        }
+
+        #chat {
+            width: 400px;
+            height: 800px;
+        }
+    </style>
 </head>
 <body>
     <label for="name">名前</label>
     <input type="text" id="name">
+    <br>
     <label for="message">メッセージ</label>
     <input type="text" id="message">
     <br>
-    <input type="button" id="send" onclick="send_message()">
+    <input type="button" id="send" value="送信" onclick="send_message()">
     <br>
+    <p id="please_input" style="display: none;">名前と本文を入れてください</p>
     <textarea id="chat"></textarea>
+    
 </body>
 </html>
